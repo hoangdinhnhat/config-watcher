@@ -54,8 +54,8 @@ spec:
       - name: config-watcher
         image: nhathd/config-watcher
         env:
-         - name: WATCH_NAMESPACE
-           value: ${NAMESPACE}
+        - name: WATCH_NAMESPACE
+          value: ${NAMESPACE}
         command:
         - "sh"
         - "/watcher/config-watcher-controller.sh"
