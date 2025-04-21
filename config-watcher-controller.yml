@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: config-watcher:sa
+  namespace: ${NAMESPACE}
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: config-watcher:role
+  namespace: ${NAMESPACE}
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["get", "watch", "list"]
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["delete"]
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: config-watcher:rolebinding
+  namespace: ${NAMESPACE}
+subjects:
+- kind: ServiceAccount
+  name: config-watcher:sa
+  namespace: ${NAMESPACE}
+roleRef:
+  name: config-watcher:role
+  kind: Role
+  apiGroup: rbac.authorization.k8s.io
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-watcher:deployment
+  namespace: ${NAMESPACE}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: config-watcher:pod
+  template:
+    metadata:
+      labels:
+        app: config-watcher:pod
+    spec:
+      serviceAccountName: config-watcher:sa
+      containers:
+      - name: config-watcher
+        image: nhathd/config-watcher
+        command:
+        - "sh"
+        - "/watcher/config-watcher-controller.sh"
