@@ -16,7 +16,7 @@ rules:
   verbs: ["get", "watch", "list"]
 - apiGroups: [""]
   resources: ["pods"]
-  verbs: ["delete"]
+  verbs: ["delete", "get", "watch", "list"]
 ---
 
 apiVersion: rbac.authorization.k8s.io/v1
