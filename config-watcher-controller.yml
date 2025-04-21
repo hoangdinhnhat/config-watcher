@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: config-watcher:sa
+  name: config-watcher-sa
   namespace: ${NAMESPACE}
 ---
 
