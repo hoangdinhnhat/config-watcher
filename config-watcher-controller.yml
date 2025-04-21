@@ -37,7 +37,7 @@ roleRef:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: config-watcher:deployment
+  name: config-watcher-deployment
   namespace: ${NAMESPACE}
 spec:
   replicas: 1
