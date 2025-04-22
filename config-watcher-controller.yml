@@ -2,14 +2,12 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: config-watcher-sa
-  namespace: ${NAMESPACE}
 ---
 
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: config-watcher:role
-  namespace: ${NAMESPACE}
 rules:
 - apiGroups: [""]
   resources: ["configmaps"]
@@ -23,7 +21,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: config-watcher-rolebinding
-  namespace: ${NAMESPACE}
 subjects:
 - kind: ServiceAccount
   name: config-watcher-sa
@@ -38,7 +35,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: config-watcher-deployment
-  namespace: ${NAMESPACE}
 spec:
   replicas: 1
   selector:
